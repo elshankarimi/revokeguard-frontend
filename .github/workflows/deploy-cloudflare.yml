@@ -1,4 +1,4 @@
-name: Deploy to Cloudflare Pages
+Name: Deploy to Cloudflare Pages
 
 on:
   push:
@@ -33,5 +33,5 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: revokeguard-frontend
+          projectName: revokeguard # نام پروژه تصحیح شد: مطابقت با نام ثبت شده در Cloudflare
           directory: dist
