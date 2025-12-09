@@ -1,29 +1,31 @@
-name: Deploy Cloudflare Worker
+name: Deploy Worker
 
 on:
   push:
     branches:
       - main
-    paths:
-      - 'worker/**' # اجرای Workflow فقط با تغییرات در پوشه worker
-      - 'wrangler.toml'
-  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
 
-      - name: Deploy Worker
+    steps:
+      - name: 🛎️ Checkout repository
+        uses: actions/checkout@v3
+
+      - name: ⚙️ Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - name: 📦 Install Dependencies
+        run: npm install
+
+      - name: 🚀 Publish to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          # Path to wrangler.toml (if not in root) - here it assumes root
-          workingDirectory: . 
-        env:
-          # کلیدهای Secret که Worker شما نیاز دارد، در اینجا به عنوان متغیرهای محیطی Cloudflare تنظیم می شوند
-          VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
-          VAPID_PUBLIC_KEY: ${{ secrets.VAPID_PUBLIC_KEY }}
-          COVALENT_KEY: ${{ secrets.COVALENT_KEY }}
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          workingDirectory: .
+          command: publish
