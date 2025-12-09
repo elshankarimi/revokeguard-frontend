@@ -3,7 +3,7 @@ import { mainnet, polygon, arbitrum, optimism, base } from 'wagmi/chains';
 import { walletConnect, injected } from 'wagmi/connectors';
 
 // 🔴 اقدام ضروری: آیدی پروژه خود را از سایت WalletConnect بگیرید و جایگزین کنید.
-const projectId = 'YOUR_WALLETCONNECT_PROJECT_ID'; 
+const projectId = 'ac634d78fb9387e384997db507c695b3'; 
 
 // متادیتای نمایش داده شده در پنجره Web3Modal
 const metadata = {
