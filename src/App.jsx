@@ -8,14 +8,12 @@ import { useCheckApprovals, useRevokeApproval } from './utils/wagmiHooks';
 function App() {
   const { address, isConnected, chain } = useAccount();
   
-  // 💡 فراخوانی هوک برای دسترسی به تابع open() جهت باز کردن مودال
+  // فراخوانی هوک Web3Modal برای دسترسی به تابع open()
   const { open } = useWeb3Modal(); 
   
   // استفاده از هوک‌های سفارشی
   const { approvals, isLoading, scanForApprovals } = useCheckApprovals(); 
   const { revokeApproval, isRevoking } = useRevokeApproval();
-
-  // تابع openModal که از آن استفاده می‌کردید، حذف شد، زیرا از open() مستقیم استفاده می‌کنیم.
   
   return (
     <div className="container">
@@ -30,7 +28,7 @@ function App() {
             // w3m-button کامپوننت دکمه اتصال/قطع Web3Modal است
             <w3m-button />
         ) : (
-            // 💡 اتصال مستقیم تابع open() به onClick برای باز کردن مودال
+            // اتصال مستقیم تابع open() به onClick برای باز کردن مودال
             <button onClick={() => open()} className="connect-button"> 
               Connect Wallet
             </button>
@@ -60,7 +58,6 @@ function App() {
                 approvals.map((approval, index) => (
                     <div key={index} className="approval-item">
                         <p>
-                            {/* توجه: نمایش مقدار approve شده توسط toLocaleString بهتر است */}
                             **Token:** {approval.token} ({approval.amount.toString()})<br/>
                             **Spender:** {approval.spender.slice(0, 6)}...{approval.spender.slice(-4)}
                         </p>
@@ -83,4 +80,3 @@ function App() {
 }
 
 export default App;
- 
