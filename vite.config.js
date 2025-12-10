@@ -1,14 +1,8 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-
 export default defineConfig({
   plugins: [react()],
-  resolve: {
-    alias: {
-      '@': '/src'
-    }
-  },
   build: {
-    outDir: 'dist'
+    rollupOptions: {
+      external: ['@rainbow-me/rainbowkit', '@rainbow-me/rainbowkit/wallets']
+    }
   }
-})
+}) 
