@@ -1,31 +1,43 @@
-import { http, createConfig } from 'wagmi'
-import { mainnet, polygon, arbitrum, optimism, base } from 'wagmi/chains'
+import { getDefaultConfig } from '@rainbow-me/rainbowkit';
 import {
-  metaMaskWallet,
+  RainbowKitProvider,
+  connectorsForWallets
+} from '@rainbow-me/rainbowkit';
+
+import {
   rainbowWallet,
+  metaMaskWallet,
+  coinbaseWallet,
   walletConnectWallet,
-  injectedWallet
-} from '@rainbow-me/rainbowkit/wallets'
+  rabbyWallet
+} from '@rainbow-me/rainbowkit/wallets';
 
-// توجه: wagmi v2 فقط از RainbowKit برای کانکتورها استفاده می‌کند
-// و دیگر "walletConnect" یا "injected" به صورت مستقیم وجود ندارد.
+import {
+  mainnet,
+  polygon,
+  arbitrum,
+  optimism,
+  base
+} from 'wagmi/chains';
 
-export const projectId = 'ac634d78fb9387e384997db507c695b3'
+import { injected } from '@wagmi/connectors';
 
-export const config = createConfig({
+const projectId = "ac634d78fb9387e384997db507c695b3"; // walletConnect Project ID
+
+export const config = getDefaultConfig({
+  appName: "RevokeGuard",
+  projectId,
   chains: [mainnet, polygon, arbitrum, optimism, base],
-  transports: {
-    [mainnet.id]: http(),
-    [polygon.id]: http(),
-    [arbitrum.id]: http(),
-    [optimism.id]: http(),
-    [base.id]: http()
-  }
-})
-
-export const connectors = [
-  metaMaskWallet({ projectId, chains: config.chains }),
-  rainbowWallet({ projectId, chains: config.chains }),
-  walletConnectWallet({ projectId, chains: config.chains }),
-  injectedWallet({ chains: config.chains })
-] 
+  wallets: [
+    {
+      groupName: "Popular Wallets",
+      wallets: [
+        metaMaskWallet,
+        rainbowWallet,
+        rabbyWallet,
+        coinbaseWallet,
+        walletConnectWallet
+      ]
+    }
+  ]
+}); 
