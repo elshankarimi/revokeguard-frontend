@@ -2,7 +2,6 @@
 import React from "react";
 import { WagmiConfig, createClient, configureChains, chain } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
-import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { walletConnectors } from "./lib/wallet";
 import ConnectWallet from "./components/ConnectWallet";
 import CastGate from "./components/CastGate";
