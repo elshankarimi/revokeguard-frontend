@@ -1,16 +1,10 @@
-// This is the core Worker logic for RevokeGuard.
-// It handles CORS, reads the Covalent API Key, and routes requests.
+// index.js (Cloudflare Worker) - RevokeGuard Worker Logic
 
-// Define the function that processes all incoming requests.
 export default {
     async fetch(request, env, ctx) {
-        
-        // --- 1. CORS Preflight Handling (Crucial for Pages to Worker communication) ---
-        // Cloudflare Pages (revokeguard-frontend) is on a different subdomain/domain than the Worker.
-        // We must allow cross-origin requests.
+        // CORS handling for frontend and Farcaster
         const origin = request.headers.get('Origin');
-        const allowedOrigin = 'https://revokeguard-frontend.pages.dev'; // Replace with your actual Pages domain/subdomain if needed
-        
+        const allowedOrigin = 'https://revokeguard-frontend.pages.dev';
         const headers = {
             'Access-Control-Allow-Origin': origin === allowedOrigin ? origin : allowedOrigin,
             'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
@@ -18,37 +12,34 @@ export default {
             'Content-Type': 'application/json'
         };
 
+        // Preflight for CORS
         if (request.method === 'OPTIONS') {
-            // Handle preflight requests
             return new Response(null, { headers });
         }
 
-        // --- 2. API Key Access ---
-        // Read the Covalent API Key from the environment variables defined in GitHub Actions/wrangler.toml
+        // Read Covalent API Key from Cloudflare env vars
         const COVALENT_KEY = env.COVALENT_KEY;
         if (!COVALENT_KEY) {
             return new Response(JSON.stringify({ error: "Covalent API Key is missing from Worker environment." }), { status: 500, headers });
         }
-        
-        // --- 3. Request Routing and Logic ---
+
+        // Route handling
         const url = new URL(request.url);
-        
-        // Example: Handle the main request for fetching approvals
-        if (url.pathname === '/approvals' && request.method === 'GET') {
-            const walletAddress = url.searchParams.get('wallet');
-            
+
+        // GET [/approvals](https://farcaster.xyz/~/channel/approvals)?wallet=0x...
+        if (url.pathname === '[/approvals](https://farcaster.xyz/~/channel/approvals)' && request.method === 'GET') {
+                           const walletAddress = url.searchParams.get('wallet');
             if (!walletAddress) {
                 return new Response(JSON.stringify({ error: "Missing wallet address parameter." }), { status: 400, headers });
             }
 
-            // --- Your Core Logic Goes Here ---
-            // For now, this is a placeholder. You will replace this with the actual Covalent/Ethers logic.
-
-            // Example of using the Covalent Key:
-            // const covalentApiUrl = `https://api.covalenthq.com/v1/chain_id/address/${walletAddress}/approvals/?key=${COVALENT_KEY}`;
-            
             try {
-                // Simulate fetching data (replace with actual fetch to Covalent)
+                // TODO: Replace this mock with real Covalent (or ethers.js) API logic
+                // Example:
+                // const response = await fetch(`https://api.covalenthq.com/v1/chain_id/address/${walletAddress}/approvals/?key=${COVALENT_KEY}`);
+                // const data = await response.json();
+
+                // MOCK response for now:
                 const mockData = {
                     message: "Successfully received request and Covalent key is available.",
                     worker: "revokeguard-worker",
@@ -62,7 +53,10 @@ export default {
             }
         }
 
-        // Default response for unhandled routes
-        return new Response(JSON.stringify({ message: "Worker is running, but route not found." }), { status: 404, headers });
+        // Fallback for all other routes
+        return new Response(
+            JSON.stringify({ message: "Worker is running, but route not found." }),
+            { status: 404, headers }
+        );
     },
-};
+}; 
