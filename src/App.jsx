@@ -1,20 +1,44 @@
-import React from 'react'
-import Header from './components/Header'
-import WalletConnect from './components/WalletConnect'
-import RevokeScanner from './features/revoke/RevokeScanner'
+// src/App.jsx
+import React from "react";
+import { WagmiConfig, createClient, configureChains, chain } from "wagmi";
+import { publicProvider } from "wagmi/providers/public";
+import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { walletConnectors } from "./lib/wallet";
+import ConnectWallet from "./components/ConnectWallet";
+import CastGate from "./components/CastGate";
+
+// تنظیم شبکه و کلاینت
+const { chains, provider } = configureChains(
+  [chain.mainnet, chain.goerli],
+  [publicProvider()]
+);
+
+const wagmiClient = createClient({
+  autoConnect: true,
+  connectors: walletConnectors,
+  provider,
+});
+
+function AppContent() {
+  return (
+    <CastGate>
+      <div style={{ textAlign: "center", marginTop: "50px" }}>
+        <h1>سلام! مینی اپ Revokeguard آماده استفاده است 🎉</h1>
+        <p>حالا که Cast کردی، می‌توانی تمام امکانات را ببینی.</p>
+      </div>
+    </CastGate>
+  );
+}
 
 export default function App() {
   return (
-    <div className="app" dir="rtl">
-      <Header />
-      <main className="container">
-        <WalletConnect />
-        <section className="card">
-          <h2>اسکن دسترسی‌ها</h2>
-          <p>برای شروع ولت را متصل کن و سپس روی «اسکن» بزن.</p>
-          <RevokeScanner />
-        </section>
-      </main>
-    </div>
-  )
+    <WagmiConfig client={wagmiClient}>
+      <RainbowKitProvider chains={chains}>
+        <div>
+          <ConnectWallet />
+          <AppContent />
+        </div>
+      </RainbowKitProvider>
+    </WagmiConfig>
+  );
 }
