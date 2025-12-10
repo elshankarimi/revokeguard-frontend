@@ -1,9 +1,22 @@
 import React from 'react'
+import { revokeApproval } from './revokeScanner'
 
-export default function RevokeRow({ approval }) {
-  const handleRevoke = () => {
-    alert(`دسترسی ${approval.token} به ${approval.spender} لغو شد (Mock)`)
-    // TODO: call contract revoke function
+export default function RevokeRow({ approval, signer }) {
+  const handleRevoke = async () => {
+    if (!signer) {
+      alert('ابتدا کیف پول را متصل کنید')
+      return
+    }
+
+    try {
+      // آدرس توکن واقعی باید اضافه شود، فعلاً mock
+      const tokenAddress = '0xYourTokenAddressHere'
+      const txHash = await revokeApproval(tokenAddress, approval.spender, signer)
+      alert(`دسترسی ${approval.token} لغو شد. Tx: ${txHash}`)
+    } catch (err) {
+      console.error(err)
+      alert('خطا در لغو دسترسی')
+    }
   }
 
   return (
