@@ -12,13 +12,13 @@
     "react-dom": "^18.2.0",
     "viem": "^2.11.0",
     "wagmi": "^2.9.2",
-    "@tanstack/react-query": "^5.37.1",
-    "@web3modal/wagmi": "^4.2.0"
+    "[@tanstack](https://farcaster.xyz/tanstack)/react-query": "^5.37.1",
+    "[@web3modal](https://farcaster.xyz/web3modal)/wagmi": "^4.2.0"
   },
   "devDependencies": {
-    "@types/react": "^18.2.43",
-    "@types/react-dom": "^18.2.17",
-    "@vitejs/plugin-react": "^4.2.1",
+    "[@types](https://farcaster.xyz/types)/react": "^18.2.43",
+    "[@types](https://farcaster.xyz/types)/react-dom": "^18.2.17",
+    "[@vitejs](https://farcaster.xyz/vitejs)/plugin-react": "^4.2.1",
     "eslint": "^8.55.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
