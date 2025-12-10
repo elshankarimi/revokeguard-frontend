@@ -1,3 +1,4 @@
+import { Toaster, toast } from 'react-hot-toast';
 import React from 'react';
 import { useAccount } from 'wagmi';
 import { useWeb3Modal } from '[@web3modal](https://farcaster.xyz/web3modal)/wagmi/react';
