@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { WagmiConfig, createClient, configureChains, mainnet } from 'wagmi';
-import { publicProvider } from '@wagmi/core/providers/public';
+import { import { publicProvider } from "wagmi/providers/public";
 import { Web3Modal } from '@web3modal/react';
 import App from './App';
 import './index.css';
