@@ -1,8 +1,13 @@
 {
   "name": "revokeguard-frontend",
-  "packageManager": "yarn@4.9.2",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
   "dependencies": {
-<<<<<<< HEAD
     "@tanstack/react-query": "^5.62.0",
     "@web3modal/wagmi": "^5.0.11",
     "react": "^18.2.0",
@@ -18,13 +23,5 @@
     "postcss": "^8.4.33",
     "tailwindcss": "^3.4.14",
     "vite": "^5.4.10"
-=======
-    "@rainbow-me/rainbowkit": "^2.2.10",
-    "@vitejs/plugin-react": "^5.1.2",
-    "react": "^19.2.1",
-    "react-dom": "^19.2.1",
-    "vite": "^7.2.7"
->>>>>>> de63c6f (Fix: Re-generated package-lock.json to sync dependencies.)
   }
 }
- 
