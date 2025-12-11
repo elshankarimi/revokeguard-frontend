@@ -1,16 +1,37 @@
 // src/lib/wallet.js
-import { configureChains, createClient } from 'wagmi'
-import { mainnet, polygon, arbitrum, optimism, base } from 'wagmi/chains'
-import { injectedWallet, walletConnectWallet } from '@rainbow-me/rainbowkit/wallets'
-// مسیر درست publicProvider در نسخه‌های جدید
-import { publicProvider } from 'wagmi/providers/public'
 
-const chains = [mainnet, polygon, arbitrum, optimism, base]
+import { configureChains, createClient, chain } from 'wagmi'
+import { publicProvider } from '@wagmi/core/providers/public'
+import {
+  injectedWallet,
+  metaMaskWallet,
+  rainbowWallet,
+  walletConnectWallet
+} from '@rainbow-me/rainbowkit/wallets'
 
-// پیکربندی شبکه‌ها و providers
-const { connectors } = configureChains(chains, [publicProvider()])
+// ------------------------
+// 1. Configure chains
+// ------------------------
+export const { chains, provider } = configureChains(
+  [chain.mainnet, chain.polygon, chain.arbitrum, chain.optimism, chain.base],
+  [publicProvider()]
+)
 
+// ------------------------
+// 2. Set up wallet connectors
+// ------------------------
+export const connectors = [
+  injectedWallet({ chains }),
+  metaMaskWallet({ chains }),
+  rainbowWallet({ chains }),
+  walletConnectWallet({ chains })
+]
+
+// ------------------------
+// 3. Create Wagmi client
+// ------------------------
 export const wagmiClient = createClient({
   autoConnect: true,
   connectors,
+  provider
 }) 
